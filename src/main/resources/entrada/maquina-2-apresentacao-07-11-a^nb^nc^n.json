@@ -1,0 +1,143 @@
+{
+  "alfabeto": [
+    "a",
+    "b",
+    "c"
+  ],
+  "simbolos": [
+    "a",
+    "b",
+    "c",
+    "x",
+    "y",
+    "z",
+    "B"
+  ],
+  "transicoes": [
+    {
+      "leSimbolo": "a",
+      "escreve": "x",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q0",
+      "estadoDestino": "q1"
+    },
+    {
+      "leSimbolo": "a",
+      "escreve": "a",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q1",
+      "estadoDestino": "q1"
+    },
+    {
+      "leSimbolo": "b",
+      "escreve": "y",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q1",
+      "estadoDestino": "q2"
+    },
+    {
+      "leSimbolo": "b",
+      "escreve": "b",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q2",
+      "estadoDestino": "q2"
+    },
+    {
+      "leSimbolo": "c",
+      "escreve": "z",
+      "direcao": "LEFT",
+      "estadoOrigem": "q2",
+      "estadoDestino": "q3"
+    },
+    {
+      "leSimbolo": "b",
+      "escreve": "b",
+      "direcao": "LEFT",
+      "estadoOrigem": "q3",
+      "estadoDestino": "q3"
+    },
+    {
+      "leSimbolo": "y",
+      "escreve": "y",
+      "direcao": "LEFT",
+      "estadoOrigem": "q3",
+      "estadoDestino": "q3"
+    },
+    {
+      "leSimbolo": "a",
+      "escreve": "a",
+      "direcao": "LEFT",
+      "estadoOrigem": "q3",
+      "estadoDestino": "q3"
+    },
+    {
+      "leSimbolo": "x",
+      "escreve": "x",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q3",
+      "estadoDestino": "q0"
+    },
+    {
+      "leSimbolo": "y",
+      "escreve": "y",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q1",
+      "estadoDestino": "q1"
+    },
+    {
+      "leSimbolo": "z",
+      "escreve": "z",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q2",
+      "estadoDestino": "q2"
+    },
+    {
+      "leSimbolo": "z",
+      "escreve": "z",
+      "direcao": "LEFT",
+      "estadoOrigem": "q3",
+      "estadoDestino": "q3"
+    },
+    {
+      "leSimbolo": "y",
+      "escreve": "y",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q0",
+      "estadoDestino": "q4"
+    },
+    {
+      "leSimbolo": "y",
+      "escreve": "y",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q4",
+      "estadoDestino": "q4"
+    },
+    {
+      "leSimbolo": "z",
+      "escreve": "z",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q4",
+      "estadoDestino": "q4"
+    },
+    {
+      "leSimbolo": "B",
+      "escreve": "B",
+      "direcao": "RIGHT",
+      "estadoOrigem": "q4",
+      "estadoDestino": "q5"
+    }
+  ],
+  "simboloBranco": "B",
+  "estadoInicial": "q0",
+  "estadosFinais": [
+    "q5"
+  ],
+  "estados": [
+    "q0",
+    "q1",
+    "q2",
+    "q3",
+    "q4",
+    "q5"
+  ]
+}
