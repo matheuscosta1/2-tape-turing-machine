@@ -4,11 +4,12 @@ import br.com.turing.machine.BaseUtilsTest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Optional;
 
 class TuringMachineTest extends BaseUtilsTest {
+
+    //TODO: implementar testes para a fita2
 
     @Test
     void shouldBeValidInitialState(){
@@ -39,8 +40,8 @@ class TuringMachineTest extends BaseUtilsTest {
     @Test
     void shouldFindByActualStateAndReadSymbol() {
         TuringMachine turingMachine = newTuringMachine();
-        Optional<Transition> transition = turingMachine.findTransitionByActualStateAndReadSymbol("q0", "0");
-        transition.ifPresent(value -> Assertions.assertEquals("q1", value.getDestinyState()));
+        Optional<Transition> transition = turingMachine.findTransitionByActualStateAndReadSymbol("q0", "0", "0");
+        transition.ifPresent(value -> Assertions.assertEquals("q0", value.getDestinyState()));
     }
 
     @Test
@@ -83,19 +84,19 @@ class TuringMachineTest extends BaseUtilsTest {
     @Test
     void shouldBeValidReadSymbol() {
         TuringMachine turingMachine = newTuringMachine();
-        Assertions.assertTrue(turingMachine.isValidSymbolRead(Transition.builder().symbolRead("0").build()));
+        Assertions.assertTrue(turingMachine.isValidSymbolRead(Transition.builder().symbolReadFirstTape("0").symbolReadSecondTape("0").build()));
     }
 
     @Test
     void shouldNotBeValidReadSymbol() {
         TuringMachine turingMachine = newTuringMachine();
-        Assertions.assertFalse(turingMachine.isValidSymbolRead(Transition.builder().symbolRead("P").build()));
+        Assertions.assertFalse(turingMachine.isValidSymbolRead(Transition.builder().symbolReadFirstTape("Z").symbolReadSecondTape("Z").build()));
     }
 
     @Test
     void shouldBeValidWriteSymbol() {
         TuringMachine turingMachine = newTuringMachine();
-        Assertions.assertTrue(turingMachine.isValidWriteSymbol(Transition.builder().writeSymbol("X").build()));
+        Assertions.assertTrue(turingMachine.isValidWriteSymbol(Transition.builder().writeSymbolFirstTape("0").writeSymbolSecondTape("0").build()));
     }
 
     @Test
@@ -115,7 +116,7 @@ class TuringMachineTest extends BaseUtilsTest {
     @Test
     void shouldNotBeValidWriteSymbol() {
         TuringMachine turingMachine = newTuringMachine();
-        Assertions.assertFalse(turingMachine.isValidWriteSymbol(Transition.builder().writeSymbol("Z").build()));
+        Assertions.assertFalse(turingMachine.isValidWriteSymbol(Transition.builder().writeSymbolFirstTape("Z").writeSymbolSecondTape("Z").build()));
     }
 
     @Test
@@ -129,7 +130,7 @@ class TuringMachineTest extends BaseUtilsTest {
     void shouldNotBeValidTransitions() {
         TuringMachine turingMachine = newTuringMachine();
         turingMachine.setStartMaker(null);
-        turingMachine.getTransitions().get(0).setSymbolRead("P");
+        turingMachine.getTransitions().get(0).setSymbolReadFirstTape("P");
         Assertions.assertFalse(turingMachine.validateTransitions());
     }
 

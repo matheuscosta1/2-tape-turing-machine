@@ -1,0 +1,106 @@
+{
+	"alfabeto": [
+		"a",
+		"b",
+		"c"
+	],
+	"simbolos": [
+		"a",
+		"b",
+		"c",
+		"B"
+	],
+	"transicoes" : [ {
+		"leSimboloPrimeiraFita" : "a",
+		"leSimboloSegundaFita" : "B",
+		"escrevePrimeiraFita" : "a",
+		"escreveSegundaFita" : "a",
+		"direcaoPrimeiraFita" : "RIGHT",
+		"direcaoSegundaFita" : "RIGHT",
+		"estadoOrigem" : "q0",
+		"estadoDestino" : "q0"
+	}, {
+		"leSimboloPrimeiraFita" : "b",
+		"leSimboloSegundaFita" : "B",
+		"escrevePrimeiraFita" : "b",
+		"escreveSegundaFita" : "b",
+		"direcaoPrimeiraFita" : "RIGHT",
+		"direcaoSegundaFita" : "RIGHT",
+		"estadoOrigem" : "q0",
+		"estadoDestino" : "q0"
+	}, {
+		"leSimboloPrimeiraFita" : "c",
+		"leSimboloSegundaFita" : "B",
+		"escrevePrimeiraFita" : "c",
+		"escreveSegundaFita" : "B",
+		"direcaoPrimeiraFita" : "NOTHING",
+		"direcaoSegundaFita" : "LEFT",
+		"estadoOrigem" : "q0",
+		"estadoDestino" : "q1"
+	}, {
+		"leSimboloPrimeiraFita" : "c",
+		"leSimboloSegundaFita" : "a",
+		"escrevePrimeiraFita" : "c",
+		"escreveSegundaFita" : "a",
+		"direcaoPrimeiraFita" : "NOTHING",
+		"direcaoSegundaFita" : "LEFT",
+		"estadoOrigem" : "q1",
+		"estadoDestino" : "q1"
+	}, {
+		"leSimboloPrimeiraFita" : "c",
+		"leSimboloSegundaFita" : "b",
+		"escrevePrimeiraFita" : "c",
+		"escreveSegundaFita" : "b",
+		"direcaoPrimeiraFita" : "NOTHING",
+		"direcaoSegundaFita" : "LEFT",
+		"estadoOrigem" : "q1",
+		"estadoDestino" : "q1"
+	}, {
+		"leSimboloPrimeiraFita" : "c",
+		"leSimboloSegundaFita" : "B",
+		"escrevePrimeiraFita" : "c",
+		"escreveSegundaFita" : "B",
+		"direcaoPrimeiraFita" : "RIGHT",
+		"direcaoSegundaFita" : "RIGHT",
+		"estadoOrigem" : "q1",
+		"estadoDestino" : "q2"
+	}, {
+		"leSimboloPrimeiraFita" : "a",
+		"leSimboloSegundaFita" : "a",
+		"escrevePrimeiraFita" : "a",
+		"escreveSegundaFita" : "a",
+		"direcaoPrimeiraFita" : "RIGHT",
+		"direcaoSegundaFita" : "RIGHT",
+		"estadoOrigem" : "q2",
+		"estadoDestino" : "q2"
+	}, {
+		"leSimboloPrimeiraFita" : "b",
+		"leSimboloSegundaFita" : "b",
+		"escrevePrimeiraFita" : "b",
+		"escreveSegundaFita" : "b",
+		"direcaoPrimeiraFita" : "RIGHT",
+		"direcaoSegundaFita" : "RIGHT",
+		"estadoOrigem" : "q2",
+		"estadoDestino" : "q2"
+	}, {
+		"leSimboloPrimeiraFita" : "B",
+		"leSimboloSegundaFita" : "B",
+		"escrevePrimeiraFita" : "B",
+		"escreveSegundaFita" : "B",
+		"direcaoPrimeiraFita" : "NOTHING",
+		"direcaoSegundaFita" : "NOTHING",
+		"estadoOrigem" : "q2",
+		"estadoDestino" : "qf"
+	} ],
+	"simboloBranco": "B",
+	"estadoInicial": "q0",
+	"estadosFinais": [
+		"qf"
+	],
+	"estados": [
+	 	"q0",
+	 	"q1",
+	 	"q2",
+	 	"qf"
+	]
+}

@@ -1,0 +1,1 @@
+delta(q, simb-lido1, sim-lido2) = (p, sim-escrito1, simb-escrito2, Dir1, Dir2)

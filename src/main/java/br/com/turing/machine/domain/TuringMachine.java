@@ -21,8 +21,8 @@ public class TuringMachine implements Serializable {
 
   @JsonProperty("transicoes")
   private List<Transition> transitions;
-  @JsonProperty("simbolos")
 
+  @JsonProperty("simbolos")
   private List<Symbol> symbols;
 
   @JsonProperty("alfabeto")
@@ -65,25 +65,25 @@ public class TuringMachine implements Serializable {
   }
 
   public boolean isValidWriteSymbol(Transition transition) {
-    if(transition.getWriteSymbol().equals(startMaker)) {
+    if(transition.getWriteSymbolFirstTape().equals(startMaker) || transition.getWriteSymbolSecondTape().equals(startMaker)) {
       return true;
     }
-    return symbols.stream().anyMatch(symbol -> symbol.getCharacter().equals(transition.getWriteSymbol()));
+    return symbols.stream().anyMatch(symbol -> symbol.getCharacter().equals(transition.getWriteSymbolFirstTape())) && symbols.stream().anyMatch(symbol -> symbol.getCharacter().equals(transition.getWriteSymbolSecondTape()));
   }
 
   public boolean isValidSymbolRead(Transition transition) {
-    if(transition.getSymbolRead().equals(startMaker)) {
+    if(transition.getSymbolReadFirstTape().equals(startMaker) || transition.getSymbolReadSecondTape().equals(startMaker)) {
       return true;
     }
-    return symbols.stream().anyMatch(symbol -> symbol.getCharacter().equals(transition.getSymbolRead()));
+    return symbols.stream().anyMatch(symbol -> symbol.getCharacter().equals(transition.getSymbolReadFirstTape())) && symbols.stream().anyMatch(symbol -> symbol.getCharacter().equals(transition.getSymbolReadSecondTape()));
   }
 
   public boolean validateTransitions() {
     return transitions.stream().allMatch(transition -> isValidOriginState(transition) && isValidDestinyState(transition) && isValidWriteSymbol(transition) && isValidSymbolRead(transition));
   }
 
-  public Optional<Transition> findTransitionByActualStateAndReadSymbol(String actualState, String readSymbol) {
-    return transitions.stream().filter(transition -> transition.getOriginState().equals(actualState) && transition.getSymbolRead().equals(readSymbol)).findFirst();
+  public Optional<Transition> findTransitionByActualStateAndReadSymbol(String actualState, String readSymbolFirstTape, String readSymbolSecondTape) {
+    return transitions.stream().filter(transition -> transition.getOriginState().equals(actualState) && transition.getSymbolReadFirstTape().equals(readSymbolFirstTape) && transition.getSymbolReadSecondTape().equals(readSymbolSecondTape)).findFirst();
   }
 
   public boolean isWordAccepted(String actualState) {

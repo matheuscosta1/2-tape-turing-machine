@@ -4,5 +4,6 @@ import java.io.Serializable;
 
 public enum Direction implements Serializable {
   RIGHT,
-  LEFT
+  LEFT,
+  NOTHING
 }

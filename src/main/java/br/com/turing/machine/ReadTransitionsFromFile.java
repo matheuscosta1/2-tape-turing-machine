@@ -1,6 +1,7 @@
 package br.com.turing.machine;
 
 import br.com.turing.machine.domain.Direction;
+import br.com.turing.machine.domain.Tape;
 import br.com.turing.machine.domain.Transition;
 import br.com.turing.machine.domain.TuringMachine;
 import br.com.turing.machine.exception.TuringMachineException;
@@ -22,8 +23,10 @@ public class ReadTransitionsFromFile {
 
     ResourceLoader resourceLoader = new DefaultResourceLoader();
 
-    public List<Transition> readFile(String inputFilePath) throws Exception {
+    public TuringMachine readFile(String inputFilePath) throws Exception {
         List<Transition> transitions = new ArrayList<>();
+
+        TuringMachine turingMachine = new TuringMachine();
         Resource resource = resourceLoader.getResource(inputFilePath);
 
         try {
@@ -33,27 +36,36 @@ public class ReadTransitionsFromFile {
 
             while (myReader.hasNextLine()) {
 
+                //delta(q, simb-lido1, sim-lido2) = (p, sim-escrito1, simb-escrito2, Dir1, Dir2)
+                //q0,a,B=q0,a,a,RIGHT,RIGHT
+
                 String data = myReader.nextLine();
-                String symbolReadAndOriginState = data.split("=")[0];
-                String destinyStateWriteSymbolAndDirection = data.split("=")[1];
+                String symbolReadFromTape1AndTape2AndOriginState = data.split("=")[0];
+                String destinyStateWriteSymbolAndDirectionFromTape1AndTape2 = data.split("=")[1];
 
                 transitions.add(Transition.builder()
-                        .originState(symbolReadAndOriginState.split(",")[0])
-                        .symbolRead(symbolReadAndOriginState.split(",")[1])
-                        .destinyState(destinyStateWriteSymbolAndDirection.split(",")[0])
-                        .writeSymbol(destinyStateWriteSymbolAndDirection.split(",")[1])
-                        .direction(Direction.valueOf(destinyStateWriteSymbolAndDirection.split(",")[2]))
+                        .originState(symbolReadFromTape1AndTape2AndOriginState.split(",")[0])
+                        .symbolReadFirstTape(symbolReadFromTape1AndTape2AndOriginState.split(",")[1])
+                        .symbolReadSecondTape(symbolReadFromTape1AndTape2AndOriginState.split(",")[2])
+                        .destinyState(destinyStateWriteSymbolAndDirectionFromTape1AndTape2.split(",")[0])
+                        .writeSymbolFirstTape(destinyStateWriteSymbolAndDirectionFromTape1AndTape2.split(",")[1])
+                        .writeSymbolSecondTape(destinyStateWriteSymbolAndDirectionFromTape1AndTape2.split(",")[2])
+                        .directionFirstTape(Direction.valueOf(destinyStateWriteSymbolAndDirectionFromTape1AndTape2.split(",")[3]))
+                        .directionSecondTape(Direction.valueOf(destinyStateWriteSymbolAndDirectionFromTape1AndTape2.split(",")[4]))
                         .build());
+
             }
 
             ObjectMapper mapper = new ObjectMapper();
 
-            String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(transitions);
+            turingMachine.setTransitions(transitions);
+
+            String json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(turingMachine);
 
             System.out.println(json);
 
             myReader.close();
-            return transitions;
+            return turingMachine;
         } catch (FileNotFoundException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();

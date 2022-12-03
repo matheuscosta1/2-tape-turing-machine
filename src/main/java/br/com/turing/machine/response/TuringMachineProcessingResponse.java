@@ -12,9 +12,12 @@ import java.io.Serializable;
 public class TuringMachineProcessingResponse implements Serializable {
 
   private String estadoAtual;
-  private String leSimbolo;
-  private String escreveSimbolo;
-  private String direcao;
+  private String leSimboloPrimeiraFita;
+  private String leSimboloSegundaFita;
+  private String escreveSimboloPrimeiraFita;
+  private String escreveSimboloSegundaFita;
+  private String direcaoPrimeiraFita;
+  private String direcaoSegundaFita;
   private String estadoDestino;
 
 }

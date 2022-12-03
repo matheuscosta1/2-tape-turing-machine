@@ -1,0 +1,9 @@
+q0,a,B=q0,a,a,RIGHT,RIGHT
+q0,b,B=q0,b,b,RIGHT,RIGHT
+q0,c,B=q1,c,B,NOTHING,LEFT
+q1,c,a=q1,c,a,NOTHING,LEFT
+q1,c,b=q1,c,b,NOTHING,LEFT
+q1,c,B=q2,c,B,RIGHT,RIGHT
+q2,a,a=q2,a,a,RIGHT,RIGHT
+q2,b,b=q2,b,b,RIGHT,RIGHT
+q2,B,B=qf,B,B,NOTHING,NOTHING

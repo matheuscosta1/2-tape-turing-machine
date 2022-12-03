@@ -56,8 +56,8 @@ public class BaseUtilsTest {
 
     public List<Transition> newTransitions() {
         ArrayList<Transition> arrayList = new ArrayList<>();
-        arrayList.add(Transition.builder().symbolRead("*").writeSymbol("*").direction(Direction.RIGHT).originState("q0").destinyState("q0").build());
-        arrayList.add(Transition.builder().symbolRead("0").writeSymbol("X").direction(Direction.RIGHT).originState("q0").destinyState("q1").build());
+        arrayList.add(Transition.builder().symbolReadFirstTape("*").writeSymbolFirstTape("*").directionFirstTape(Direction.RIGHT).symbolReadSecondTape("*").writeSymbolSecondTape("*").directionSecondTape(Direction.RIGHT).originState("q0").destinyState("q0").build());
+        arrayList.add(Transition.builder().symbolReadFirstTape("0").writeSymbolFirstTape("X").directionFirstTape(Direction.RIGHT).symbolReadSecondTape("0").writeSymbolSecondTape("X").directionSecondTape(Direction.RIGHT).originState("q0").destinyState("q0").build());
         return arrayList;
     }
 }

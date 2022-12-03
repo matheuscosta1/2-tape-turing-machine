@@ -12,14 +12,23 @@ import java.io.Serializable;
 @Builder
 public class Transition implements Serializable  {
 
-  @JsonProperty("leSimbolo")
-  private String symbolRead;
+  @JsonProperty("leSimboloPrimeiraFita")
+  private String symbolReadFirstTape;
 
-  @JsonProperty("escreve")
-  private String writeSymbol;
+  @JsonProperty("leSimboloSegundaFita")
+  private String symbolReadSecondTape;
 
-  @JsonProperty("direcao")
-  private Direction direction;
+  @JsonProperty("escrevePrimeiraFita")
+  private String writeSymbolFirstTape;
+
+  @JsonProperty("escreveSegundaFita")
+  private String writeSymbolSecondTape;
+
+  @JsonProperty("direcaoPrimeiraFita")
+  private Direction directionFirstTape;
+
+  @JsonProperty("direcaoSegundaFita")
+  private Direction directionSecondTape;
 
   @JsonProperty("estadoOrigem")
   private String originState;

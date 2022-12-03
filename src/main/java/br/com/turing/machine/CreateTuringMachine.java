@@ -27,9 +27,11 @@ public class CreateTuringMachine extends JPanel implements ActionListener {
 
     String actualState;
 
-    Integer index = 0;
+    Integer indexFirstTape = 0;
+    Integer indexSecondTape = 0;
 
-    ArrayList<CellTape> tape = new ArrayList<>();
+    ArrayList<CellTape> firstTape = new ArrayList<>();
+    ArrayList<CellTape> secondTape = new ArrayList<>();
     TuringMachine turingMachine;
 
     ResourceLoader resourceLoader = new DefaultResourceLoader();
@@ -45,7 +47,7 @@ public class CreateTuringMachine extends JPanel implements ActionListener {
 
     TuringMachineResponse turingMachineResponse = new TuringMachineResponse();
 
-    String inputFilePath = "classpath:entrada/numero-igual-0s-1s.json";
+    String inputFilePath = "classpath:entrada/2-tape-wcw.json";
 
     CreateTuringMachine() throws Exception {
         setLayout(null);
@@ -119,14 +121,17 @@ public class CreateTuringMachine extends JPanel implements ActionListener {
 
         String whiteSymbol = turingMachine.getWhiteSymbol();
 
-        String wordWithBlankSymbols = whiteSymbol.repeat(quantityOfBlankSymbolsOnTheLeftSide).concat(wordWithInitialSymbol.concat(whiteSymbol.repeat(quantityOfBlankSymbolsOnTheRightSide)));
+        String wordWithBlankSymbolsToMountFirstTape = whiteSymbol.repeat(quantityOfBlankSymbolsOnTheLeftSide).concat(wordWithInitialSymbol.concat(whiteSymbol.repeat(quantityOfBlankSymbolsOnTheRightSide)));
+        String wordWithAllBlankSymbolsToMountSecondTape = whiteSymbol.repeat(QUANTITY_OF_TAPE_CELL);
 
-        index = quantityOfBlankSymbolsOnTheLeftSide;
+        indexFirstTape = quantityOfBlankSymbolsOnTheLeftSide;
+        indexSecondTape = quantityOfBlankSymbolsOnTheLeftSide;
 
-        tapeDraw(wordWithBlankSymbols);
+        firstTapeDraw(wordWithBlankSymbolsToMountFirstTape);
+        secondTapeDraw(wordWithAllBlankSymbolsToMountSecondTape);
     }
 
-    public void tapeDraw(String word) {
+    public void firstTapeDraw(String word) {
 
         Graphics graphics = getGraphics();
 
@@ -144,29 +149,61 @@ public class CreateTuringMachine extends JPanel implements ActionListener {
 
             graphics.drawString(String.valueOf(actualCharacter), axisX, drawStringYAxis);
 
-            if (tape.size() < word.length()) {
-                saveEachCellTapeCoordinate(axisX, axisY, actualCharacter, drawStringYAxis);
+            if (firstTape.size() < word.length()) {
+                saveEachCellOnFirstTapeCoordinate(axisX, axisY, actualCharacter, drawStringYAxis);
             }
 
             axisX = movesOnAxisXForEachCell(axisX);
         }
 
-        drawInitialArrowOnTape(graphics);
+        CellTape cellTape = firstTape.get(indexFirstTape);
 
-        drawBeginningActualState();
+        drawInitialArrowOnTape(graphics, 130, cellTape);
+
+        drawBeginningActualState(100, 300);
 
         processorButton.setEnabled(true);
         skipProcessingButton.setEnabled(true);
     }
 
-    private void drawInitialArrowOnTape(Graphics graphics) {
-        CellTape cellTape = tape.get(index);
+    public void secondTapeDraw(String word) {
 
-        graphics.drawImage(arrowImageIcon.getImage(), cellTape.getXAxis(), 130, null);
+        Graphics graphics = getGraphics();
+
+        graphics.setFont(new Font("", Font.PLAIN, FONT_SIZE));
+
+        int axisX = 100;
+        int axisY = 200;
+
+        for (int iterator = 0; iterator < word.length(); iterator++) {
+            char actualCharacter = word.charAt(iterator);
+
+            graphics.drawRect(axisX, axisY, WIDTH, HEIGHT);
+
+            int drawStringYAxis = axisY + HEIGHT;
+
+            graphics.drawString(String.valueOf(actualCharacter), axisX, drawStringYAxis);
+
+            if (secondTape.size() < word.length()) {
+                saveEachCellOnSecondTapeCoordinate(axisX, axisY, actualCharacter, drawStringYAxis);
+            }
+
+            axisX = movesOnAxisXForEachCell(axisX);
+        }
+        CellTape cellTape = secondTape.get(indexSecondTape);
+
+        drawInitialArrowOnTape(graphics, 230, cellTape);
+
+        processorButton.setEnabled(true);
+        skipProcessingButton.setEnabled(true);
     }
 
-    private void saveEachCellTapeCoordinate(int axisX, int axisY, char actualCharacter, int drawStringYAxis) {
-        tape.add(
+    private void drawInitialArrowOnTape(Graphics graphics, int yAxis, CellTape cellTape) {
+        graphics.drawImage(arrowImageIcon.getImage(), cellTape.getXAxis(), yAxis, null);
+    }
+
+    private void saveEachCellOnFirstTapeCoordinate(int axisX, int axisY, char actualCharacter, int drawStringYAxis) {
+        firstTape.add(
                 CellTape
                         .builder()
                         .xAxis(axisX)
@@ -179,9 +216,23 @@ public class CreateTuringMachine extends JPanel implements ActionListener {
         );
     }
 
-    private void drawBeginningActualState() {
+    private void saveEachCellOnSecondTapeCoordinate(int axisX, int axisY, char actualCharacter, int drawStringYAxis) {
+        secondTape.add(
+                CellTape
+                        .builder()
+                        .xAxis(axisX)
+                        .yAxis(axisY)
+                        .drawStringYAxis(drawStringYAxis)
+                        .symbol(Symbol.builder().character(String.valueOf(actualCharacter)).build())
+                        .width(WIDTH)
+                        .height(HEIGHT)
+                        .build()
+        );
+    }
+
+    private void drawBeginningActualState(int x, int y) {
         drawActualState.setText("Estado atual: ".concat(actualState));
-        drawActualState.setBounds(100, 200, 130, 50);
+        drawActualState.setBounds(x, y, 130, 50);
     }
 
     private static int movesOnAxisXForEachCell(int axisX) {
@@ -194,65 +245,113 @@ public class CreateTuringMachine extends JPanel implements ActionListener {
         Graphics graphics = getGraphics();
         graphics.setFont(new Font("", Font.PLAIN, FONT_SIZE));
 
-        CellTape cellTapeCoordinate = tape.get(index);
-
-        clearOldRectTapeAndDrawNewRectWithNewSymbol(transition, graphics, cellTapeCoordinate);
-
-        movesToTheLeftOrTheRightOnTapeBasedOnTransitionDirection(transition, graphics, cellTapeCoordinate);
-
-        constructTuringMachineResponse(transition, cellTapeCoordinate);
-
-        actualState = transition.getDestinyState();
-
-        updateActualSymbolReadFromTapeInTapeCoordinateList(transition, cellTapeCoordinate);
+        updateFirstTape(transition, graphics);
 
         drawActualState.setText("Estado atual: ".concat(actualState));
 
     }
 
-    private void constructTuringMachineResponse(Transition transition, CellTape cellTapeCoordinate) {
+    private void updateFirstTape(Transition transition, Graphics graphics) {
+        boolean isFirstTape = true;
+        CellTape firstTapeCellCoordinate = firstTape.get(indexFirstTape);
+
+        clearOldRectTapeAndDrawNewRectWithNewSymbol(transition, graphics, firstTapeCellCoordinate, isFirstTape);
+
+        movesToTheLeftOrTheRightOnTapeBasedOnTransitionDirectionForFirstTape(transition, graphics, firstTapeCellCoordinate, 130);
+
+        updateActualSymbolReadFromTapeInTapeCoordinateList(transition, firstTapeCellCoordinate, isFirstTape);
+
+        updateSecondTape(transition, graphics, firstTapeCellCoordinate);
+    }
+
+    private void updateSecondTape(Transition transition, Graphics graphics, CellTape firstTapeCellCoordinate) {
+        boolean isFirstTape = false;
+
+        CellTape secondTapeCellCoordinate = secondTape.get(indexSecondTape);
+
+        clearOldRectTapeAndDrawNewRectWithNewSymbol(transition, graphics, secondTapeCellCoordinate, isFirstTape);
+
+        movesToTheLeftOrTheRightOnTapeBasedOnTransitionDirectionForSecondTape(transition, graphics, secondTapeCellCoordinate, 230);
+
+        constructTuringMachineResponse(transition, firstTapeCellCoordinate, secondTapeCellCoordinate);
+
+        actualState = transition.getDestinyState();
+
+        updateActualSymbolReadFromTapeInTapeCoordinateList(transition, secondTapeCellCoordinate, isFirstTape);
+    }
+
+    private void constructTuringMachineResponse(Transition transition, CellTape firstTapeCellCoordinate, CellTape secondTapeCellCoordinate) {
         TuringMachineProcessingResponse turingMachineProcessingResponse = TuringMachineProcessingResponse
                 .builder()
                 .estadoAtual(actualState)
-                .leSimbolo(cellTapeCoordinate.getSymbol().getCharacter())
-                .escreveSimbolo(transition.getWriteSymbol())
+                .escreveSimboloPrimeiraFita(transition.getWriteSymbolFirstTape())
+                .escreveSimboloSegundaFita(transition.getWriteSymbolSecondTape())
                 .estadoDestino(transition.getDestinyState())
-                .direcao(transition.getDirection().name())
+                .direcaoPrimeiraFita(transition.getDirectionFirstTape().name())
+                .direcaoSegundaFita(transition.getDirectionSecondTape().name())
+                .leSimboloPrimeiraFita(firstTapeCellCoordinate.getSymbol().getCharacter())
+                .leSimboloSegundaFita(secondTapeCellCoordinate.getSymbol().getCharacter())
                 .build();
 
         turingMachineResponse.getProcessamento().add(turingMachineProcessingResponse);
     }
 
-    private void movesToTheLeftOrTheRightOnTapeBasedOnTransitionDirection(Transition transition, Graphics graphics, CellTape cellTapeCoordinate) {
-        if(Direction.RIGHT.equals(transition.getDirection())) {
-            graphics.clearRect(cellTapeCoordinate.getXAxis(), 130, WIDTH, HEIGHT);
-            graphics.drawImage(arrowImageIcon.getImage(), cellTapeCoordinate.getXAxis() + WIDTH, 130, null);
-            index += 1;
-        } else {
-            graphics.clearRect(cellTapeCoordinate.getXAxis(), 130, WIDTH, HEIGHT);
-            graphics.drawImage(arrowImageIcon.getImage(), cellTapeCoordinate.getXAxis() - WIDTH, 130, null);
-            index -= 1;
+    private void movesToTheLeftOrTheRightOnTapeBasedOnTransitionDirectionForFirstTape(Transition transition, Graphics graphics, CellTape cellTapeCoordinate, int yAxis) {
+        if(Direction.RIGHT.equals(transition.getDirectionFirstTape())) {
+            graphics.clearRect(cellTapeCoordinate.getXAxis(), yAxis, WIDTH, HEIGHT);
+            graphics.drawImage(arrowImageIcon.getImage(), cellTapeCoordinate.getXAxis() + WIDTH, yAxis, null);
+            indexFirstTape += 1;
+        } else if (Direction.LEFT.equals(transition.getDirectionFirstTape())) {
+            graphics.clearRect(cellTapeCoordinate.getXAxis(), yAxis, WIDTH, HEIGHT);
+            graphics.drawImage(arrowImageIcon.getImage(), cellTapeCoordinate.getXAxis() - WIDTH, yAxis, null);
+            indexFirstTape -= 1;
         }
     }
 
-    private static void clearOldRectTapeAndDrawNewRectWithNewSymbol(Transition transition, Graphics graphics, CellTape cellTapeCoordinate) {
+    private void movesToTheLeftOrTheRightOnTapeBasedOnTransitionDirectionForSecondTape(Transition transition, Graphics graphics, CellTape cellTapeCoordinate, int yAxis) {
+        if(Direction.RIGHT.equals(transition.getDirectionSecondTape())) {
+            graphics.clearRect(cellTapeCoordinate.getXAxis(), yAxis, WIDTH, HEIGHT);
+            graphics.drawImage(arrowImageIcon.getImage(), cellTapeCoordinate.getXAxis() + WIDTH, yAxis, null);
+            indexSecondTape += 1;
+        } else if (Direction.LEFT.equals(transition.getDirectionSecondTape())) {
+            graphics.clearRect(cellTapeCoordinate.getXAxis(), yAxis, WIDTH, HEIGHT);
+            graphics.drawImage(arrowImageIcon.getImage(), cellTapeCoordinate.getXAxis() - WIDTH, yAxis, null);
+            indexSecondTape -= 1;
+        }
+    }
+
+    private static void clearOldRectTapeAndDrawNewRectWithNewSymbol(Transition transition, Graphics graphics, CellTape cellTapeCoordinate, boolean isFirstTape) {
         graphics.clearRect(cellTapeCoordinate.getXAxis(), cellTapeCoordinate.getYAxis(), WIDTH, HEIGHT);
 
         graphics.drawRect(cellTapeCoordinate.getXAxis(), cellTapeCoordinate.getYAxis(), WIDTH, HEIGHT);
 
-        graphics.drawString(transition.getWriteSymbol(), cellTapeCoordinate.getXAxis(), cellTapeCoordinate.getDrawStringYAxis());
+        if(isFirstTape) {
+            graphics.drawString(transition.getWriteSymbolFirstTape(), cellTapeCoordinate.getXAxis(), cellTapeCoordinate.getDrawStringYAxis());
+        } else {
+            graphics.drawString(transition.getWriteSymbolSecondTape(), cellTapeCoordinate.getXAxis(), cellTapeCoordinate.getDrawStringYAxis());
+        }
+
     }
 
-    private static void updateActualSymbolReadFromTapeInTapeCoordinateList(Transition transition, CellTape cellTapeCoordinate) {
-        cellTapeCoordinate.setSymbol(Symbol.builder().character(transition.getWriteSymbol()).build());
+    private static void updateActualSymbolReadFromTapeInTapeCoordinateList(Transition transition, CellTape cellTapeCoordinate, boolean isFirstTape) {
+        if(isFirstTape) {
+            cellTapeCoordinate.setSymbol(Symbol.builder().character(transition.getWriteSymbolFirstTape()).build());
+        } else {
+            cellTapeCoordinate.setSymbol(Symbol.builder().character(transition.getWriteSymbolSecondTape()).build());
+        }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals(PROCESSOR_EVENT)) {
-            Optional<Transition> transition = processMachine();
+            Optional<Transition> transition = getTransition();
             try {
-                processTuringMachineOneStepPerTime(transition);
+                if(transition.isPresent()) {
+                    processTuringMachineOneStepPerTime(transition);
+                } else {
+                    validateTuringMachineAcceptsWord();
+                    writeTuringMachineResponseToFile(turingMachineResponse);
+                }
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -280,20 +379,17 @@ public class CreateTuringMachine extends JPanel implements ActionListener {
 
     private void processTuringMachineOneStepPerTime(Optional<Transition> transition) throws IOException {
         if(transition.isPresent()) {
-            transition.ifPresent(this::updateTapeDraw);
-        } else {
-            validateTuringMachineAcceptsWord();
-            writeTuringMachineResponseToFile(turingMachineResponse);
+            updateTapeDraw(transition.get());
         }
     }
 
     private void processTuringMachineStepByStepTillTheEnd() {
         new Thread(() -> {
-            Optional<Transition> transition = processMachine();
+            Optional<Transition> transition = getTransition();
 
             while (transition.isPresent()) {
-                transition = processMachine();
-                transition.ifPresent(this::updateTapeDraw);
+                updateTapeDraw(transition.get());
+                transition = getTransition();
                 try {
                     Thread.sleep(1200);
                 } catch (InterruptedException ex) {
@@ -325,10 +421,11 @@ public class CreateTuringMachine extends JPanel implements ActionListener {
         }
     }
 
-    private Optional<Transition> processMachine(){
-        CellTape cellTapeCell = tape.get(index);
+    private Optional<Transition> getTransition(){
+        CellTape firstTapeCell = firstTape.get(indexFirstTape);
+        CellTape secondTapeCell = secondTape.get(indexSecondTape);
 
-        return turingMachine.findTransitionByActualStateAndReadSymbol(actualState, cellTapeCell.getSymbol().getCharacter());
+        return turingMachine.findTransitionByActualStateAndReadSymbol(actualState, firstTapeCell.getSymbol().getCharacter(), secondTapeCell.getSymbol().getCharacter());
     }
 
     public static void main(String[] args) throws Exception {
