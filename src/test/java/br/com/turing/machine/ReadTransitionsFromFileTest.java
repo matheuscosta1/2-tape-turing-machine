@@ -10,7 +10,7 @@ class ReadTransitionsFromFileTest {
     void shouldReadFile() throws Exception {
         ReadTransitionsFromFile transitions = new ReadTransitionsFromFile();
 
-        String inputFilePath = "classpath:transicoes/soma-binarios-versao-2";
+        String inputFilePath = "classpath:transicoes/soma-binarios";
         TuringMachine turingMachine = transitions.readFile(inputFilePath);
         assertNotNull(turingMachine);
     }
