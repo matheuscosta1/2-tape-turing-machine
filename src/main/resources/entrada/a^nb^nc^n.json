@@ -1,0 +1,89 @@
+{
+	"alfabeto": [
+		"a",
+		"b",
+		"c"
+	],
+	"simbolos": [
+		"a",
+		"b",
+		"c",
+		"B"
+	],
+	"transicoes" : [ {
+		"leSimboloPrimeiraFita" : "a",
+		"leSimboloSegundaFita" : "B",
+		"escrevePrimeiraFita" : "a",
+		"escreveSegundaFita" : "a",
+		"direcaoPrimeiraFita" : "RIGHT",
+		"direcaoSegundaFita" : "RIGHT",
+		"estadoOrigem" : "q0",
+		"estadoDestino" : "q1"
+	}, {
+		"leSimboloPrimeiraFita" : "a",
+		"leSimboloSegundaFita" : "B",
+		"escrevePrimeiraFita" : "a",
+		"escreveSegundaFita" : "a",
+		"direcaoPrimeiraFita" : "RIGHT",
+		"direcaoSegundaFita" : "RIGHT",
+		"estadoOrigem" : "q1",
+		"estadoDestino" : "q1"
+	}, {
+		"leSimboloPrimeiraFita" : "b",
+		"leSimboloSegundaFita" : "B",
+		"escrevePrimeiraFita" : "b",
+		"escreveSegundaFita" : "B",
+		"direcaoPrimeiraFita" : "NOTHING",
+		"direcaoSegundaFita" : "LEFT",
+		"estadoOrigem" : "q1",
+		"estadoDestino" : "q2"
+	}, {
+		"leSimboloPrimeiraFita" : "b",
+		"leSimboloSegundaFita" : "a",
+		"escrevePrimeiraFita" : "b",
+		"escreveSegundaFita" : "b",
+		"direcaoPrimeiraFita" : "RIGHT",
+		"direcaoSegundaFita" : "LEFT",
+		"estadoOrigem" : "q2",
+		"estadoDestino" : "q2"
+	}, {
+		"leSimboloPrimeiraFita" : "c",
+		"leSimboloSegundaFita" : "B",
+		"escrevePrimeiraFita" : "c",
+		"escreveSegundaFita" : "B",
+		"direcaoPrimeiraFita" : "NOTHING",
+		"direcaoSegundaFita" : "RIGHT",
+		"estadoOrigem" : "q2",
+		"estadoDestino" : "q3"
+	}, {
+		"leSimboloPrimeiraFita" : "c",
+		"leSimboloSegundaFita" : "b",
+		"escrevePrimeiraFita" : "c",
+		"escreveSegundaFita" : "c",
+		"direcaoPrimeiraFita" : "RIGHT",
+		"direcaoSegundaFita" : "RIGHT",
+		"estadoOrigem" : "q3",
+		"estadoDestino" : "q3"
+	}, {
+		"leSimboloPrimeiraFita" : "B",
+		"leSimboloSegundaFita" : "B",
+		"escrevePrimeiraFita" : "B",
+		"escreveSegundaFita" : "B",
+		"direcaoPrimeiraFita" : "NOTHING",
+		"direcaoSegundaFita" : "NOTHING",
+		"estadoOrigem" : "q3",
+		"estadoDestino" : "q4"
+	} ],
+	"simboloBranco": "B",
+	"estadoInicial": "q0",
+	"estadosFinais": [
+		"q4"
+	],
+	"estados": [
+	 	"q0",
+	 	"q1",
+	 	"q2",
+	 	"q3",
+		"q4"
+	]
+}

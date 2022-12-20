@@ -70,7 +70,6 @@
   "simboloBranco": "B",
   "estadoInicial": "q0",
   "estadosFinais": [
-    "q2"
   ],
   "estados": [
     "q0",
