@@ -1,0 +1,17 @@
+a^nb^nc^n
+
+aaabbbccc -> aceita
+aaabbbcc -> rejeita
+aaaaaabbbbbbcccccc -> aceita
+
+soma binarios
+
+1: 1001S1011 = 10100 -> 9 + 11 = 20 
+2: 1001S0101 = 1110 -> 9 + 5 = 14
+3: 1111S1111 = 11110 -> 15 + 15 = 30
+4: 11110S10001 = 101111 -> 30 + 17 = 47
+
+w^r
+
+aaabbb
+aababa
